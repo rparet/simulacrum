@@ -1,5 +1,19 @@
 # Changelog
 
+## \[0.5.4]
+
+### Enhancements
+
+- [`e920b0d`](https://github.com/thefrontside/simulacrum/commit/e920b0dc4803cd228650f27aa52e693b4d662e43) All existing custom routes, repository and installations endpoints, now return a 404 in cases where there are no associated resources to match the real API functionality.
+
+### Bug Fixes
+
+- [`0ba82b7`](https://github.com/thefrontside/simulacrum/commit/0ba82b7720f54dbc7faf99a0e2da2ef9212caff5) Change the default simulation helper page to `/simulation` to avoid the conflict with the default GitHub route at the root, `/`.
+
+### Dependencies
+
+- Upgraded to `@simulacrum/foundation-simulator@0.3.1`
+
 ## \[0.5.3]
 
 ### Bug Fixes
