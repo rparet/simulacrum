@@ -1,5 +1,15 @@
 # Changelog
 
+## \[0.3.1]
+
+### Enhancements
+
+- [`0ba82b7`](https://github.com/thefrontside/simulacrum/commit/0ba82b7720f54dbc7faf99a0e2da2ef9212caff5) Add API to pass in a page route for the default simulation helper page. This allows for those services which define a valid route returned at the root.
+
+### Bug Fixes
+
+- [`34ecabd`](https://github.com/thefrontside/simulacrum/commit/34ecabdbb483f494fdff25b2b7a352bdba1079cc) Fix `exports` in `package.json` and `tsconfig.json` with ESM for improved compatibility with `pnpm`.
+
 ## \[0.3.0]
 
 ### New Features
