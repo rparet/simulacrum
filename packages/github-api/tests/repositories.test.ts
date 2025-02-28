@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { simulation } from "../src/index";
 
-let basePort = 3301;
+let basePort = 3320;
 let host = "http://localhost";
 let url = `${host}:${basePort}`;
 
