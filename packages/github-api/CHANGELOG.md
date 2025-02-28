@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.5.5]
+
+### Bug Fixes
+
+- [`ade6ca6`](https://github.com/thefrontside/simulacrum/commit/ade6ca69238094d96236bdfbbe06285cb80bf100) The `/user/memberships/orgs` endpoint didn't return data per the schema. Fix and validate.
+
 ## \[0.5.4]
 
 ### Enhancements
