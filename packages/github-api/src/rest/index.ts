@@ -185,11 +185,24 @@ const handlers =
         _request,
         response
       ) => {
-        // list all orgs
-        const ghOrgs = simulationStore.selectors.allGithubOrganizations(
+        const users = simulationStore.schema.users.selectTableAsList(
           simulationStore.store.getState()
         );
-        response.status(200).json(ghOrgs);
+        const user = users[0];
+        const organizations = simulationStore.selectors.allGithubOrganizations(
+          simulationStore.store.getState()
+        );
+        return {
+          status: 200,
+          json: organizations.map((organization) => ({
+            url: `${organization.url}/memberships`,
+            state: "active",
+            organization,
+            role: "admin",
+            organization_url: organization.url,
+            user: !user ? null : user,
+          })),
+        };
       },
       ...(extendedHandlers ? extendedHandlers(simulationStore) : {}),
     };

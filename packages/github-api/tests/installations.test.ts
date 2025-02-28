@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { simulation } from "../src/index";
 
-let basePort = 3302;
+let basePort = 3310;
 let host = "http://localhost";
 let url = `${host}:${basePort}`;
 
@@ -27,6 +27,7 @@ describe.sequential("GET repo endpoints", () => {
     it("validates with 200 response", async () => {
       let request = await fetch(`${url}/installation/repositories`);
       let response = await request.json();
+      expect(response.err).toBe(undefined);
       expect(request.status).toEqual(200);
       expect(response.repositories).toEqual([
         expect.objectContaining({ name: "awesome-repo" }),
@@ -38,6 +39,7 @@ describe.sequential("GET repo endpoints", () => {
     it("validates with 200 response", async () => {
       let request = await fetch(`${url}/orgs/lovely-org/installation`);
       let response = await request.json();
+      expect(response.err).toBe(undefined);
       expect(request.status).toEqual(200);
       expect(response).toEqual(
         expect.objectContaining({
@@ -58,6 +60,7 @@ describe.sequential("GET repo endpoints", () => {
         `${url}/repos/lovely-org/awesome-repo/installation`
       );
       let response = await request.json();
+      expect(response.err).toBe(undefined);
       expect(request.status).toEqual(200);
       expect(response).toEqual(
         expect.objectContaining({

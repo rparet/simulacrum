@@ -291,7 +291,7 @@ export const githubOrganizationSchema = z
     email: z.string().optional(),
     node_id: z.string().optional(),
     type: z.enum(["User", "Organization"]).default("Organization"),
-    description: z.string().optional(),
+    description: z.string().optional().default("Generic org description"),
     created_at: z
       .string()
       .default(() => faker.date.recent().toISOString())
@@ -315,6 +315,10 @@ export const githubOrganizationSchema = z
     repos_url: z.string().optional(),
     events_url: z.string().optional(),
     received_events_url: z.string().optional(),
+    hooks_url: z.string().optional(),
+    issues_url: z.string().optional(),
+    members_url: z.string().optional(),
+    public_members_url: z.string().optional(),
   })
   .transform((org) => {
     org.id = faker.number.int();
@@ -326,7 +330,7 @@ export const githubOrganizationSchema = z
       });
 
     const host = "localhost:3300";
-    org.url = `https://${host}/users/octocat`;
+    org.url = `https://${host}/orgs/${org.login}`;
     org.html_url = `https://github.com/octocat`;
     org.followers_url = `https://${host}/users/octocat/followers`;
     org.following_url = `https://${host}/users/octocat/following{/other_user}`;
@@ -337,6 +341,13 @@ export const githubOrganizationSchema = z
     org.repos_url = `https://${host}/users/octocat/repos`;
     org.events_url = `https://${host}/users/octocat/events{/privacy}`;
     org.received_events_url = `https://${host}/users/octocat/received_events`;
+
+    org.repos_url = `${org.url}/repos`;
+    org.events_url = `${org.url}/events`;
+    org.hooks_url = `${org.url}/hooks`;
+    org.issues_url = `${org.url}/issues`;
+    org.members_url = `${org.url}/members{/member}`;
+    org.public_members_url = `${org.url}/public_members{/member}`;
 
     org.node_id = "MDQ6VXNlcjE=";
 
