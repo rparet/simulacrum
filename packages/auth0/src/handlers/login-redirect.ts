@@ -1,9 +1,11 @@
-import type { Request, Response, RequestHandler } from 'express';
-import type { Auth0Configuration, QueryParams } from '../types';
+import type { Request, Response, RequestHandler } from "express";
+import type { Auth0Configuration, QueryParams } from "../types";
 import { stringify } from "querystring";
 
-export const createLoginRedirectHandler = (options: Auth0Configuration): RequestHandler =>
-  function loginRedirect (req: Request, res: Response) {
+export const createLoginRedirectHandler = (
+  options: Auth0Configuration
+): RequestHandler =>
+  function loginRedirect(req: Request, res: Response) {
     let {
       client_id,
       audience,

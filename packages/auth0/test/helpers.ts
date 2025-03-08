@@ -1,25 +1,11 @@
-import type { Task, Resource } from 'effection';
-import type { Client } from '@simulacrum/client';
-import { createClient } from '@simulacrum/client';
-import type { Server, ServerOptions } from '@simulacrum/server';
-import { createSimulationServer } from '@simulacrum/server';
+import { createFoundationSimulationServer } from "@simulacrum/foundation-simulator";
 
-export type { Client, Simulation } from '@simulacrum/client';
-
-export function createTestServer(options: ServerOptions): Resource<Client> {
-  return {
-    *init(scope: Task) {
-      let server: Server = yield createSimulationServer(options);
-      let { port } = server.address;
-      let client = createClient(`http://localhost:${port}`);
-      scope.run(function*() {
-        try {
-          yield;
-        } finally {
-          client.dispose();
-        }
-      });
-      return client;
-    }
-  };
-}
+export const frontendSimulation = createFoundationSimulationServer({
+  port: 3000,
+  // dummy route so it returns a 200 at `/'
+  extendRouter(router, simulationStore) {
+    router.get("/api", (req, res) => {
+      res.sendStatus(200);
+    });
+  },
+})();

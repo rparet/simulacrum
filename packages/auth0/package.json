@@ -3,15 +3,17 @@
   "version": "0.9.0",
   "description": "Run local instance of Auth0 API for local development and integration testing",
   "main": "dist/index.js",
-  "bin": "bin/index.js",
+  "bin": "bin/start.js",
   "scripts": {
-    "clean": "rimraf *.tsbuildinfo dist",
-    "test": "echo noop",
-    "prepack": "echo 'tsc --build tsconfig.dist.json && copy-cli \"./src/views/**/*.png\" ./dist/views/'",
+    "start": "node --import=tsx ./example/index.ts",
+    "start:bin": "node ./bin/start.js",
+    "test": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" vitest run --fileParallelism=false",
+    "test:watch": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" vitest watch --fileParallelism=false",
+    "prepack": "tsc --build tsconfig.dist.json && npm run copyAssets",
+    "copyAssets": "node -e \"require('fs').cpSync('./src/views/public/', './dist/views/public/', {recursive: true});\"",
     "build": "npm run prepack",
-    "lint": "echo noop",
-    "start": "node dist/start.js",
-    "watch": "ts-node -P ./tsconfig.watch.json ./watch.ts"
+    "clean": "rimraf *.tsbuildinfo dist",
+    "lint": "echo noop"
   },
   "repository": {
     "type": "git",
@@ -37,8 +39,25 @@
     "url": "https://github.com/thefrontside/simulacrum/issues"
   },
   "homepage": "https://github.com/thefrontside/simulacrum#readme",
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "assert-ts": "^0.3.4",
+    "base64-url": "^2.3.3",
+    "cookie-session": "^2.1.0",
+    "cosmiconfig": "^9.0.0",
+    "html-entities": "^2.5.2",
+    "jsesc": "^3.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/base64-url": "^2.2.2",
+    "@types/cookie-session": "^2.0.49",
+    "@types/jsesc": "^3.0.3",
+    "@types/jsonwebtoken": "^9.0.9",
+    "tsx": "^4.19.2",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  },
   "volta": {
     "extends": "../../package.json"
   }
