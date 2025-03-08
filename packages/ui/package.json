@@ -10,7 +10,7 @@
     "watch": "parcel watch",
     "build": "npm run prepack",
     "lint": "echo noop",
-    "clean": "rimraf dist"
+    "clean": "echo skip"
   },
   "repository": {
     "type": "git",

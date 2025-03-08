@@ -35,7 +35,8 @@
     "prepack": "npm run build",
     "build": "npm run build:cjs && npm run build:esm",
     "build:cjs": "tsc -build tsconfig.dist.json",
-    "build:esm": "tsc --build tsconfig.esm.json"
+    "build:esm": "tsc --build tsconfig.esm.json",
+    "clean": "npm run build:cjs -- --clean && npm run build:esm -- --clean"
   },
   "dependencies": {
     "ajv-formats": "^3.0.1",

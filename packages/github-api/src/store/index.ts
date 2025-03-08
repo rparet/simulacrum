@@ -1,8 +1,11 @@
 import type {
   SimulationStore,
-  ExtendSimulationActions,
-  ExtendSimulationSelectors,
   ExtendSimulationSchema,
+  ExtendSimulationSchemaInput,
+  ExtendSimulationActions,
+  ExtendSimulationActionsInput,
+  ExtendSimulationSelectors,
+  ExtendSimulationSelectorsInput,
   TableOutput,
   AnyState,
 } from "@simulacrum/foundation-simulator";
@@ -16,11 +19,6 @@ import {
   type GitHubBranch,
   GitHubAppInstallation,
 } from "./entities";
-import type { ExtendSimulationSchemaInput } from "@simulacrum/foundation-simulator/src/store/schema";
-import type {
-  ExtendSimulationActionsInput,
-  ExtendSimulationSelectorsInput,
-} from "@simulacrum/foundation-simulator/src/store";
 
 export type ExtendedSchema = ({ slice }: ExtendSimulationSchema) => {
   users: (

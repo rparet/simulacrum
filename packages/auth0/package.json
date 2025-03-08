@@ -12,7 +12,7 @@
     "prepack": "tsc --build tsconfig.dist.json && npm run copyAssets",
     "copyAssets": "node -e \"require('fs').cpSync('./src/views/public/', './dist/views/public/', {recursive: true});\"",
     "build": "npm run prepack",
-    "clean": "rimraf *.tsbuildinfo dist",
+    "clean": "tsc --build --clean tsconfig.dist.json",
     "lint": "echo noop"
   },
   "repository": {

@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "bin": "bin/index.js",
   "scripts": {
-    "clean": "rimraf *.tsbuildinfo dist",
+    "clean": "echo skip",
     "test": "echo skip",
     "test-local": "NODE_ENV=test mocha -r ts-node/register --timeout 10000 test/**/*.test.ts",
     "prepack": "echo \"tsc --build tsconfig.dist.json\"",
