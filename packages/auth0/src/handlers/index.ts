@@ -11,7 +11,7 @@ import { Auth0Configuration } from "../types";
 
 const publicDir = path.join(__dirname, "..", "views", "public");
 export const extendRouter =
-  (config: Auth0Configuration, debug = true) =>
+  (config: Auth0Configuration, debug = false) =>
   (router: Express, simulationStore: ExtendedSimulationStore) => {
     const serviceURL = (request: Request) =>
       `${request.protocol}://${request.get("Host")}/`;
@@ -48,9 +48,4 @@ export const extendRouter =
 
     // needs to be the last middleware added
     router.use(defaultErrorHandler);
-
-    // console.log(`store populated with user`);
-    // console.log(
-    //   `username = ${person.data.email} password = ${person.data.password}`
-    // );
   };

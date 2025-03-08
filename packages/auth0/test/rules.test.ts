@@ -249,7 +249,6 @@ describe("rules", () => {
         let token = await res.json();
 
         let idToken = jwt.decode(token.id_token, { complete: true });
-        console.log(idToken);
         expect(idToken?.payload.name).toBe(person.name);
 
         expect(idToken?.payload.checkURLOne).toBe("https://frontside.com");

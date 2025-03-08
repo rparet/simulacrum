@@ -34,7 +34,6 @@ export function parseRulesFiles(
         let code = fs.readFileSync(filename, {
           encoding: "utf-8",
         });
-        console.dir({ code, rawRule });
 
         return { code, filename, order, stage };
       })
