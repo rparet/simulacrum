@@ -23,7 +23,10 @@ If this does not meet your needs then please create a github issue to start a co
 
 ## Quick Start
 
-This quick start assumes you have your own app with auth0.
+This quick start assumes you have your own app with Auth0.
+
+> [!IMPORTANT]  
+> The Auth0 clients expect the server to be served as `https`, and will throw an error if it is served as `http`. Currently, we rely on a certificate available in the home directory. On first run, you will see instructions on how to set up this certificate through `mkcert`.
 
 ### Using Default User
 
