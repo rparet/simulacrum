@@ -1,15 +1,12 @@
 import jsesc from "jsesc";
-import type { QueryParams } from '../types';
+import type { QueryParams } from "../types";
 
 export const webMessage = ({
   state,
   code,
   redirect_uri,
   nonce,
-}: Pick<
-  QueryParams,
-  "state" | "code" | "redirect_uri" | "nonce"
->): string => {
+}: Pick<QueryParams, "state" | "code" | "redirect_uri" | "nonce">): string => {
   let data = jsesc(
     {
       redirect_uri,

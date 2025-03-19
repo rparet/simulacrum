@@ -1,13 +1,20 @@
-import path from 'path';
-import vm from 'vm';
-import fs from 'fs';
-import { assert } from 'assert-ts';
-import { parseRulesFiles } from './parse-rules-files';
-import type { Rule, RuleContext, RuleUser } from './types';
+import path from "path";
+import vm from "vm";
+import fs from "fs";
+import { assert } from "assert-ts";
+import { parseRulesFiles } from "./parse-rules-files";
+import type { Rule, RuleContext, RuleUser } from "./types";
 
-export type RulesRunner = <A, I>(user: RuleUser, context: RuleContext<A, I>) => void;
+export type RulesRunner = <A, I>(
+  user: RuleUser,
+  context: RuleContext<A, I>
+) => void;
 
-async function runRule <A, I>(user: RuleUser, context: RuleContext<A, I>, rule: Rule) {
+async function runRule<A, I>(
+  user: RuleUser,
+  context: RuleContext<A, I>,
+  rule: Rule
+) {
   await new Promise((resolve, reject) => {
     let sandbox = {
       process,
@@ -32,7 +39,7 @@ async function runRule <A, I>(user: RuleUser, context: RuleContext<A, I>, rule: 
     };
 
     let vmContext = vm.createContext(sandbox);
-    assert(typeof rule !== 'undefined', 'undefined rule');
+    assert(typeof rule !== "undefined", "undefined rule");
 
     let { code, filename } = rule;
 
@@ -59,9 +66,12 @@ async function runRule <A, I>(user: RuleUser, context: RuleContext<A, I>, rule: 
 
 export function createRulesRunner(rulesPath?: string): RulesRunner {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let callback = (_user: RuleUser, _context: RuleContext<unknown, unknown>) => { };
+  let callback = (
+    _user: RuleUser,
+    _context: RuleContext<unknown, unknown>
+  ) => {};
 
-  if (typeof rulesPath === 'undefined') {
+  if (typeof rulesPath === "undefined") {
     return callback;
   }
 
@@ -78,8 +88,8 @@ export function createRulesRunner(rulesPath?: string): RulesRunner {
   return async <A, I>(user: RuleUser, context: RuleContext<A, I>) => {
     console.debug(`applying ${rules.length} rules`);
 
-      for (let rule of rules) {
-        await runRule(user, context, rule);
-      }
+    for (let rule of rules) {
+      await runRule(user, context, rule);
+    }
   };
 }

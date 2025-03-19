@@ -1,15 +1,16 @@
-import { describe, it, beforeEach } from "@effection/mocha";
-import expect from "expect";
-import type { Client, Simulation } from "./helpers";
-import { createTestServer } from "./helpers";
-import { auth0 } from "../src";
-import fetch from "cross-fetch";
-import type { Person } from "@simulacrum/server";
-import { createHttpApp } from "@simulacrum/server";
-import { person as personScenario } from "@simulacrum/server";
+import {
+  describe,
+  it,
+  beforeEach,
+  afterEach,
+  beforeAll,
+  afterAll,
+  expect,
+} from "vitest";
+import { defaultUser, simulation } from "../src/index";
 import jwt from "jsonwebtoken";
 import { assert } from "assert-ts";
-import type { Scenario } from "@simulacrum/client";
+import { frontendSimulation } from "./helpers";
 
 let Fields = {
   audience: "https://example.nl",
@@ -31,44 +32,44 @@ type FixtureDirectories =
   | "sync-wrapper-with-async";
 
 type Fixtures = `test/fixtures/rules-${FixtureDirectories}`;
+let person = {
+  name: "Paul Waters",
+  email: "paulwaters.white@yahoo.com",
+  password: "12345",
+};
 
-function* createSimulation(
-  client: Client,
+let basePort = 4420;
+let host = "https://localhost";
+let auth0Url = `${host}:${basePort}`;
+async function createSimulation(
   rulesDirectory: Fixtures,
-  userData?: Record<string, string>
+  initialPerson?: Partial<typeof person>
 ) {
-  let simulation: Simulation = yield client.createSimulation("auth0", {
-    options: {
-      rulesDirectory,
+  const frontendServer = await frontendSimulation.listen();
+
+  const simulationPerson = { ...person, ...initialPerson };
+  const app = simulation({
+    initialState: {
+      users: [simulationPerson],
     },
-    services: {
-      auth0: { port: 4400 },
-      frontend: { port: 3000 },
-    },
+    options: { rulesDirectory },
   });
-
-  let authUrl = simulation.services[0].url;
-
-  let person: Scenario<Person> = yield client.given(
-    simulation,
-    "person",
-    userData
-  );
+  let server = await app.listen(basePort);
 
   // prime the server with the nonce field
-  yield fetch(`${authUrl}/usernamepassword/login`, {
+  await fetch(`${auth0Url}/usernamepassword/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       ...Fields,
-      username: person.data.email,
-      password: person.data.password,
+      username: simulationPerson.email,
+      password: simulationPerson.password,
     }),
   });
 
-  let res: Response = yield fetch(`https://localhost:4400/login/callback`, {
+  let res: Response = await fetch(`${auth0Url}/login/callback`, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -82,52 +83,26 @@ function* createSimulation(
 
   let code = new URL(res.url).searchParams.get("code") as string;
 
-  return { code, authUrl, person };
+  await frontendServer.ensureClose();
+  return { code, server };
 }
 
 describe("rules", () => {
-  let client: Client;
-
-  it("should", function* () {
-    expect(true).toBe(true);
-  });
-
-  beforeEach(function* () {
-    client = yield createTestServer({
-      simulators: {
-        auth0: (slice, options) => {
-          let { services } = auth0(slice, options);
-
-          return {
-            services: {
-              ...services,
-              frontend: {
-                protocol: "http",
-                app: createHttpApp().get("/", function* (_, res) {
-                  res.status(200).send("ok");
-                }),
-              },
-            },
-            scenarios: { person: personScenario },
-          };
-        },
-      },
-    });
-  });
-
   describe("accessToken claims", () => {
-    let authUrl: string;
     let code: string;
+    let server;
 
-    beforeEach(function* () {
-      ({ authUrl, code } = yield createSimulation(
-        client,
+    beforeEach(async ({ task }) => {
+      ({ code, server } = await createSimulation(
         "test/fixtures/rules-access-token"
       ));
     });
+    afterEach(async () => {
+      await server.ensureClose();
+    });
 
-    it("should have added the claims", function* () {
-      let res: Response = yield fetch(`${authUrl}/oauth/token`, {
+    it("should have added the claims", async () => {
+      let res: Response = await fetch(`${auth0Url}/oauth/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -138,7 +113,8 @@ describe("rules", () => {
         }),
       });
 
-      let token = yield res.json();
+      expect(res.ok).toBe(true);
+      let token = await res.json();
 
       let accessToken = jwt.decode(token.access_token, { complete: true });
 
@@ -155,19 +131,18 @@ describe("rules", () => {
   });
 
   describe("augment user", () => {
-    let authUrl: string;
     let code: string;
-    let person: Scenario<Person>;
+    let server;
 
-    beforeEach(function* () {
-      ({ authUrl, code, person } = yield createSimulation(
-        client,
-        "test/fixtures/rules-user"
-      ));
+    beforeEach(async () => {
+      ({ code, server } = await createSimulation("test/fixtures/rules-user"));
+    });
+    afterEach(async () => {
+      await server.ensureClose();
     });
 
-    it("should have added a picture to the payload", function* () {
-      let res: Response = yield fetch(`${authUrl}/oauth/token`, {
+    it("should have added a picture to the payload", async () => {
+      let res: Response = await fetch(`${auth0Url}/oauth/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -175,31 +150,32 @@ describe("rules", () => {
         body: JSON.stringify({
           ...Fields,
           code,
-          ...person.data,
+          ...person,
         }),
       });
 
-      let token = yield res.json();
+      let token = await res.json();
 
       let idToken = jwt.decode(token.id_token, { complete: true });
 
       expect(idToken?.payload.picture).toContain("https://i.pravatar.cc");
-      expect(idToken?.payload.name).toBe(person.data.name);
+      expect(idToken?.payload.name).toBe(person.name);
     });
   });
 
   describe("rely on user data", () => {
-    it("should trust Fred", function* () {
-      let { authUrl, code, person } = yield createSimulation(
-        client,
+    it("should trust Fred", async () => {
+      const otherPerson = {
+        name: "Fred Waters",
+        email: "fred@yahoo.com",
+      };
+
+      let { code, server } = await createSimulation(
         "test/fixtures/rules-user-dependent",
-        {
-          name: "Fred Waters",
-          email: "fred@yahoo.com",
-        }
+        otherPerson
       );
 
-      let res: Response = yield fetch(`${authUrl}/oauth/token`, {
+      let res: Response = await fetch(`${auth0Url}/oauth/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -207,28 +183,29 @@ describe("rules", () => {
         body: JSON.stringify({
           ...Fields,
           code,
-          ...person.data,
+          ...otherPerson,
         }),
       });
 
-      let token = yield res.json();
+      let token = await res.json();
 
       let idToken = jwt.decode(token.id_token, { complete: true });
-      expect(idToken?.payload.name).toBe(person.data.name);
+      expect(idToken?.payload.name).toBe(otherPerson.name);
       expect(idToken?.payload.trustProfile).toContain("friend");
+      await server.ensureClose();
     });
 
-    it("should distrust Mark", function* () {
-      let { authUrl, code, person } = yield createSimulation(
-        client,
+    it("should distrust Mark", async () => {
+      const otherPerson = {
+        name: "Mark Wahl",
+        email: "mark@yahoo.com",
+      };
+      let { code, server } = await createSimulation(
         "test/fixtures/rules-user-dependent",
-        {
-          name: "Mark Wahl",
-          email: "mark@yahoo.com",
-        }
+        otherPerson
       );
 
-      let res: Response = yield fetch(`${authUrl}/oauth/token`, {
+      let res: Response = await fetch(`${auth0Url}/oauth/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -236,89 +213,89 @@ describe("rules", () => {
         body: JSON.stringify({
           ...Fields,
           code,
-          ...person.data,
+          ...otherPerson,
         }),
       });
 
-      let token = yield res.json();
+      let token = await res.json();
 
       let idToken = jwt.decode(token.id_token, { complete: true });
-      expect(idToken?.payload.name).toBe(person.data.name);
+      expect(idToken?.payload.name).toBe(otherPerson.name);
       expect(idToken?.payload.trustProfile).toContain("foe");
+      await server.ensureClose();
     });
   });
 
   describe("async rule resolution", () => {
-    it("should resolve async top level", function* () {
-      let {
-        authUrl,
-        code,
-        person,
-      }: { authUrl: string; code: string; person: Scenario<Person> } =
-        yield createSimulation(client, "test/fixtures/rules-async-only");
-      let res: Response = yield fetch(`${authUrl}/oauth/token`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...Fields,
-          code,
-          ...person.data,
-        }),
+    // nested describe give it an extra task for time to actually release the port
+    describe("async top level", () => {
+      it("should resolve async top level", async () => {
+        let { code, server } = await createSimulation(
+          "test/fixtures/rules-async-only",
+          person
+        );
+        let res: Response = await fetch(`${auth0Url}/oauth/token`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...Fields,
+            code,
+            ...person,
+          }),
+        });
+
+        let token = await res.json();
+
+        let idToken = jwt.decode(token.id_token, { complete: true });
+        expect(idToken?.payload.name).toBe(person.name);
+
+        expect(idToken?.payload.checkURLOne).toBe("https://frontside.com");
+        expect(idToken?.payload.checkURLOneStatus).toBe(200);
+        expect(idToken?.payload.checkURLOneText).toBe("frontside");
+        expect(idToken?.payload.checkURLTwo).toBe(
+          "https://frontside.com/effection"
+        );
+        expect(idToken?.payload.checkURLTwoStatus).toBe(200);
+        expect(idToken?.payload.checkURLTwoText).toBe("effection");
+        await server.ensureClose();
       });
-
-      let token = yield res.json();
-
-      let idToken = jwt.decode(token.id_token, { complete: true });
-      expect(idToken?.payload.name).toBe(person.data.name);
-
-      expect(idToken?.payload.checkURLOne).toBe("https://frontside.com");
-      expect(idToken?.payload.checkURLOneStatus).toBe(200);
-      expect(idToken?.payload.checkURLOneText).toBe("<!doctype html>");
-      expect(idToken?.payload.checkURLTwo).toBe(
-        "https://frontside.com/effection"
-      );
-      expect(idToken?.payload.checkURLTwoStatus).toBe(200);
-      expect(idToken?.payload.checkURLTwoText).toBe('<html lang="en-');
     });
 
-    it("should resolve async nested in sync wrapper", function* () {
-      let {
-        authUrl,
-        code,
-        person,
-      }: { authUrl: string; code: string; person: Scenario<Person> } =
-        yield createSimulation(
-          client,
+    describe("sync top level", () => {
+      it("should resolve async nested in sync wrapper", async () => {
+        let { code, server } = await createSimulation(
           "test/fixtures/rules-sync-wrapper-with-async"
         );
-      let res: Response = yield fetch(`${authUrl}/oauth/token`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...Fields,
-          code,
-          ...person.data,
-        }),
+        let res: Response = await fetch(`${auth0Url}/oauth/token`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...Fields,
+            code,
+            ...person,
+          }),
+        });
+
+        let token = await res.json();
+
+        let idToken = jwt.decode(token.id_token, { complete: true });
+        expect(idToken?.payload.name).toBe(person.name);
+
+        expect(idToken?.payload.checkURLOne).toBe("https://frontside.com");
+        expect(idToken?.payload.checkURLOneStatus).toBe(200);
+        expect(idToken?.payload.checkURLOneText).toBe("frontside");
+
+        expect(idToken?.payload.checkURLTwo).toBe(
+          "https://frontside.com/effection"
+        );
+        expect(idToken?.payload.checkURLTwoStatus).toBe(200);
+        expect(idToken?.payload.checkURLTwoText).toBe("effection");
+        await server.ensureClose();
       });
-
-      let token = yield res.json();
-
-      let idToken = jwt.decode(token.id_token, { complete: true });
-      expect(idToken?.payload.name).toBe(person.data.name);
-
-      expect(idToken?.payload.checkURLOne).toBe("https://frontside.com");
-      expect(idToken?.payload.checkURLOneStatus).toBe(200);
-      expect(idToken?.payload.checkURLOneText).toBe("<!doctype html>");
-
-      expect(idToken?.payload.checkURLTwo).toBe(
-        "https://frontside.com/effection"
-      );
-      expect(idToken?.payload.checkURLTwoStatus).toBe(200);
-      expect(idToken?.payload.checkURLTwoText).toBe('<html lang="en-');
     });
   });
 });

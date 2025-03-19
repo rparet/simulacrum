@@ -38,7 +38,8 @@
     "build": "npm run generate && npm run build:cjs && npm run build:esm && copyfiles -f src/schema/* dist/schema",
     "generate": "graphql-codegen",
     "build:cjs": "tsc -build tsconfig.dist.json",
-    "build:esm": "tsc --build tsconfig.esm.json"
+    "build:esm": "tsc --build tsconfig.esm.json",
+    "clean": "npm run build:cjs -- --clean && npm run build:esm -- --clean"
   },
   "dependencies": {
     "@faker-js/faker": "^9.3.0",

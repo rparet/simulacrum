@@ -1,12 +1,14 @@
-import { assert } from 'assert-ts';
-import type { Person } from '@simulacrum/server';
-import type { ScopeConfig } from '../types';
+import { assert } from "assert-ts";
+import type { ScopeConfig } from "../types";
+import type { ExtendedSimulationStore } from "../store";
+import type { Auth0User } from "../store/entities";
 
 type Predicate<T> = (this: void, value: T, index: number, obj: T[]) => boolean;
 
 export const createPersonQuery =
-  (people: Iterable<Person>) => (predicate: Predicate<Person>) => {
-    return [...people].find(predicate);
+  (store: ExtendedSimulationStore) => (predicate: Predicate<Auth0User>) => {
+    const users = store.schema.users.selectTableAsList(store.store.getState());
+    return users.find(predicate);
   };
 
 export const deriveScope = ({
@@ -18,9 +20,9 @@ export const deriveScope = ({
   clientID: string;
   audience: string;
 }) => {
-  if (typeof scopeConfig === 'string') return scopeConfig;
+  if (typeof scopeConfig === "string") return scopeConfig;
   let defaultScope = scopeConfig.find(
-    (application) => application.clientID === 'default'
+    (application) => application.clientID === "default"
   );
 
   assert(!!clientID, `500::Did not have a clientID to derive the scope`);

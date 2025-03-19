@@ -36,6 +36,7 @@ import type { RecursivePartial } from "./store/types";
 import { apiProxy } from "./middleware/proxy";
 import { delayMiddleware } from "./middleware/delay";
 import { generateRoutesHTML } from "./routeTemplate";
+import { createAppServer } from "./server";
 
 type SimulationHandlerFunctions = (
   context: OpenAPIBackendContext,
@@ -77,6 +78,7 @@ export function createFoundationSimulationServer<
   ExtendedSimulationSelectors
 >({
   port = 9000,
+  protocol = "http",
   simulationContextPage = "/",
   verbose,
   proxyAndSave,
@@ -87,6 +89,7 @@ export function createFoundationSimulationServer<
   extendRouter,
 }: {
   port?: number;
+  protocol?: "http" | "https";
   simulationContextPage?: string;
   verbose?: boolean;
   proxyAndSave?: string;
@@ -130,7 +133,7 @@ export function createFoundationSimulationServer<
   ): void;
 }) {
   return () => {
-    let app = express();
+    let app = express().disable("x-powered-by");
 
     if (proxyAndSave) {
       app.use(apiProxy(proxyAndSave));
@@ -383,10 +386,11 @@ export function createFoundationSimulationServer<
     // if no extendRouter routes or openapi routes handle this, return 404
     app.all("*", (req, res) => res.status(404).json({ error: "not found" }));
 
+    const genericAppServer = createAppServer(app, protocol);
     return {
       listen: async (portOverride?: number, callback?: () => void) => {
-        let listeningPort = portOverride ?? port;
-        let server = app.listen(listeningPort, callback);
+        const listeningPort = portOverride ?? port;
+        const server = genericAppServer.listen(listeningPort, callback);
 
         if (!server.listening) {
           await new Promise<void>((resolve) => {
@@ -394,8 +398,13 @@ export function createFoundationSimulationServer<
           });
         }
 
+        const address = server.address();
         return {
           server,
+          port:
+            address && typeof address !== "string" && "port" in address
+              ? address.port
+              : undefined,
           simulationStore,
           ensureClose: async () => {
             await new Promise<void>((resolve) => {

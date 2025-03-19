@@ -1,4 +1,4 @@
-import type { RequestHandler } from 'express';
+import type { RequestHandler } from "express";
 
 export const noCache: () => RequestHandler = () => (_, res, next) => {
   res.set("Pragma", "no-cache");

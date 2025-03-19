@@ -22,7 +22,9 @@ function syncWrapper(user, context, callback) {
     let response = await fetch(url);
     let checkURLStatus = response.status;
     let result = await response.text();
-    let checkURLText = result.slice(0, 15);
+    let titleStart = result.indexOf("<title>");
+    let titleEnd = result.indexOf("</title>");
+    let checkURLText = result.slice(titleStart + "<title>".length, titleEnd);
     return { checkURLStatus, checkURLText };
   };
 

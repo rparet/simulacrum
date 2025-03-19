@@ -4,7 +4,7 @@
   "description": "A server containing simulation state, and the control API to manipulate it",
   "main": "dist/index.js",
   "scripts": {
-    "clean": "rimraf *.tsbuildinfo dist",
+    "clean": "echo skip",
     "test": "echo noop",
     "prepack": "echo \"tsc --build tsconfig.dist.json\"",
     "build": "npm run prepack",

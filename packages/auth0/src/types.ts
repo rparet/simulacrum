@@ -1,24 +1,25 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-// TODO: better validation
 export const configurationSchema = z.object({
   port: z.optional(
     z
       .number()
-      .gt(2999, 'port must be greater than 2999')
-      .lt(10000, 'must be less than 10000')
+      .gt(2999, "port must be greater than 2999")
+      .lt(10000, "must be less than 10000")
   ),
-  domain: z.optional(z.string().min(1, 'domain is required')),
-  audience: z.optional(z.string().min(1, 'audience is required')),
-  clientID: z.optional(z.string().max(32, 'must be 32 characters long')),
+  domain: z.optional(z.string().min(1, "domain is required")),
+  audience: z.optional(z.string().min(1, "audience is required")),
+  clientID: z.optional(z.string().max(32, "must be 32 characters long")),
   scope: z.union([
-      z.string().min(1, 'scope is required'),
-      z.array(z.object({
-        clientID: z.string().max(32, 'must be 32 characters long'),
-        audience: z.optional(z.string().min(1, 'audience is required')),
-        scope: z.string().min(1, 'scope is required'),
-      }))
-    ]),
+    z.string().min(1, "scope is required"),
+    z.array(
+      z.object({
+        clientID: z.string().max(32, "must be 32 characters long"),
+        audience: z.optional(z.string().min(1, "audience is required")),
+        scope: z.string().min(1, "scope is required"),
+      })
+    ),
+  ]),
   clientSecret: z.optional(z.string()),
   rulesDirectory: z.optional(z.string()),
   auth0SessionCookieName: z.optional(z.string()),
@@ -27,21 +28,25 @@ export const configurationSchema = z.object({
   cookieSecret: z.optional(z.string()),
 });
 
-export type Schema = z.infer<typeof configurationSchema>;
+export type ConfigSchema = z.infer<typeof configurationSchema>;
 
-type ReadonlyFields = 'audience' | 'clientID' | 'scope' | 'port';
+type ReadonlyFields = "audience" | "clientID" | "scope" | "port";
 
 // grant_type list as defined by auth0
 // https://auth0.com/docs/get-started/applications/application-grant-types#spec-conforming-grants
-export type GrantType = 'password' | 'client_credentials' | 'authorization_code' | 'refresh_token';
+export type GrantType =
+  | "password"
+  | "client_credentials"
+  | "authorization_code"
+  | "refresh_token";
 
 export type ScopeConfig =
   | string
   | { audience?: string; clientID: string; scope: string }[];
 
-export type Auth0Configuration = Required<Pick<Schema, ReadonlyFields>>
-                                 & Omit<Schema, ReadonlyFields>;
-export type ResponseModes = 'query' | 'web_message';
+export type Auth0Configuration = Required<Pick<ConfigSchema, ReadonlyFields>> &
+  Omit<ConfigSchema, ReadonlyFields>;
+export type ResponseModes = "query" | "web_message";
 
 export type QueryParams = {
   state: string;
@@ -106,9 +111,8 @@ export interface RefreshToken {
 
 type Token<P> = {
   payload: P;
-}
+};
 
 export type IdToken = Token<IdTokenData>;
 
 export type AccessToken = Token<AccessTokenPayload>;
-
