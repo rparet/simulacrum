@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.10.0]
+
+### Enhancements
+
+- [`2a51566`](https://github.com/thefrontside/simulacrum/commit/2a5156698652f9a4ae206d0e0a9b379c140ff0b0) Rebuild Auth0 Simulator on top of the Foundation simulator. This simplifies the configuration required to run it. It also provides some flexibility for the future in handling the data store, and building out other APIs.
+
 ## \[0.9.0]
 
 - Add the `refresh_token` flow

@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.4.0]
+
+### New Features
+
+- [`774c860`](https://github.com/thefrontside/simulacrum/commit/774c860d91896c1cfdad64b283dcab836b57441d) Now allows setting the server as https with a certificate applied in the home directory. Use the `protocol` to enable the search for the SSL certificate.
+
 ## \[0.3.1]
 
 ### Enhancements

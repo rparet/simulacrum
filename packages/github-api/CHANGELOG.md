@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.5.6]
+
+### Dependencies
+
+- Upgraded to `@simulacrum/foundation-simulator@0.4.0`
+
 ## \[0.5.5]
 
 ### Bug Fixes
