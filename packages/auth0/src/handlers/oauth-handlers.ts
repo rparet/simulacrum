@@ -1,22 +1,25 @@
 import { assert } from "assert-ts";
 import { decode, decode as decodeBase64 } from "base64-url";
-import { epochTime, expiresAt } from "../auth/date";
-import { createJsonWebToken } from "../auth/jwt";
-import { createRulesRunner } from "../rules/rules-runner";
-import { deriveScope, createPersonQuery } from "./utils";
+import { epochTime, expiresAt } from "../auth/date.ts";
+import { createJsonWebToken } from "../auth/jwt.ts";
+import { createRulesRunner } from "../rules/rules-runner.ts";
+import { deriveScope, createPersonQuery } from "./utils.ts";
 
 import type { Request } from "express";
-import type { RuleContext, RuleUser } from "../rules/types";
+import type { RuleContext, RuleUser } from "../rules/types.ts";
 import type {
   ScopeConfig,
   AccessTokenPayload,
   GrantType,
   IdTokenData,
   RefreshToken,
-} from "../types";
-import { createRefreshToken, issueRefreshToken } from "../auth/refresh-token";
-import { ExtendedSimulationStore } from "../store";
-import { Auth0User } from "../store/entities";
+} from "../types.ts";
+import {
+  createRefreshToken,
+  issueRefreshToken,
+} from "../auth/refresh-token.ts";
+import { ExtendedSimulationStore } from "../store/index.ts";
+import { Auth0User } from "../store/entities.ts";
 
 export const createTokens = async ({
   body,

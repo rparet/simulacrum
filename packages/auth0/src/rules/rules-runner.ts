@@ -2,8 +2,8 @@ import path from "path";
 import vm from "vm";
 import fs from "fs";
 import { assert } from "assert-ts";
-import { parseRulesFiles } from "./parse-rules-files";
-import type { Rule, RuleContext, RuleUser } from "./types";
+import { parseRulesFiles } from "./parse-rules-files.ts";
+import type { Rule, RuleContext, RuleUser } from "./types.ts";
 
 export type RulesRunner = <A, I>(
   user: RuleUser,

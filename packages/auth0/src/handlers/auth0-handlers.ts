@@ -1,16 +1,20 @@
-import type { ExtendedSimulationStore } from "../store";
+import type { ExtendedSimulationStore } from "../store/index.ts";
 import type { Request, RequestHandler } from "express";
-import type { Auth0Configuration, QueryParams, ResponseModes } from "../types";
-import { createLoginRedirectHandler } from "./login-redirect";
-import { createWebMessageHandler } from "./web-message";
-import { loginView } from "../views/login";
-import { createTokens } from "./oauth-handlers";
+import type {
+  Auth0Configuration,
+  QueryParams,
+  ResponseModes,
+} from "../types.ts";
+import { createLoginRedirectHandler } from "./login-redirect.ts";
+import { createWebMessageHandler } from "./web-message.ts";
+import { loginView } from "../views/login.ts";
+import { createTokens } from "./oauth-handlers.ts";
 import { assert } from "assert-ts";
 import { stringify } from "querystring";
 import { encode } from "base64-url";
-import { userNamePasswordForm } from "../views/username-password";
+import { userNamePasswordForm } from "../views/username-password.ts";
 import { decode as decodeToken } from "jsonwebtoken";
-import { createPersonQuery } from "./utils";
+import { createPersonQuery } from "./utils.ts";
 
 export type Routes =
   | "/heartbeat"

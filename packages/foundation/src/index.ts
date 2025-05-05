@@ -19,24 +19,24 @@ import type {
 } from "openapi-backend";
 import type { Options as AjvOpts } from "ajv";
 import addFormats from "ajv-formats";
-import { createSimulationStore } from "./store/index";
+import { createSimulationStore } from "./store/index.ts";
 import type {
   SimulationStore,
   ExtendSimulationActionsInput,
   ExtendSimulationActions,
   ExtendSimulationSelectorsInput,
   ExtendSimulationSelectors,
-} from "./store/index";
+} from "./store/index.ts";
 import type {
   ExtendSimulationSchemaInput,
   ExtendSimulationSchema,
   SimulationRoute,
-} from "./store/schema";
-import type { RecursivePartial } from "./store/types";
-import { apiProxy } from "./middleware/proxy";
-import { delayMiddleware } from "./middleware/delay";
-import { generateRoutesHTML } from "./routeTemplate";
-import { createAppServer } from "./server";
+} from "./store/schema.ts";
+import type { RecursivePartial } from "./store/types.ts";
+import { apiProxy } from "./middleware/proxy.ts";
+import { delayMiddleware } from "./middleware/delay.ts";
+import { generateRoutesHTML } from "./routeTemplate.ts";
+import { createAppServer } from "./server.ts";
 
 type SimulationHandlerFunctions = (
   context: OpenAPIBackendContext,

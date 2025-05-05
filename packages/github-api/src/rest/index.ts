@@ -1,7 +1,7 @@
 import type { SimulationHandlers } from "@simulacrum/foundation-simulator";
-import type { ExtendedSimulationStore } from "../store";
-import { getSchema, type SchemaFile } from "../utils";
-import { blobAsBase64, commitStatusResponse, gitTrees } from "./utils";
+import type { ExtendedSimulationStore } from "../store/index.ts";
+import { getSchema, type SchemaFile } from "../utils.ts";
+import { blobAsBase64, commitStatusResponse, gitTrees } from "./utils.ts";
 
 const handlers =
   (

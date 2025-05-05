@@ -40,6 +40,8 @@
   },
   "homepage": "https://github.com/thefrontside/simulacrum#readme",
   "dependencies": {
+    "@simulacrum/foundation-simulator": "0.4.0",
+    "@faker-js/faker": "^9.3.0",
     "assert-ts": "^0.3.4",
     "base64-url": "^2.3.3",
     "cookie-session": "^2.1.0",
@@ -54,8 +56,8 @@
     "@types/cookie-session": "^2.0.49",
     "@types/jsesc": "^3.0.3",
     "@types/jsonwebtoken": "^9.0.9",
-    "tsx": "^4.19.2",
-    "typescript": "^5.4.5",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3",
     "vitest": "^1.6.0"
   },
   "volta": {

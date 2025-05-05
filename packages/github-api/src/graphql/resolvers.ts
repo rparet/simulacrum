@@ -1,9 +1,9 @@
-import type { PageArgs } from "./relay";
-import { applyRelayPagination } from "./relay";
-import type { Resolvers } from "../__generated__/resolvers-types";
-import { toGraphql } from "./to-graphql";
+import type { PageArgs } from "./relay.ts";
+import { applyRelayPagination } from "./relay.ts";
+import type { Resolvers } from "../__generated__/resolvers-types.ts";
+import { toGraphql } from "./to-graphql.ts";
 import { assert } from "assert-ts";
-import type { ExtendedSimulationStore } from "../store";
+import type { ExtendedSimulationStore } from "../store/index.ts";
 
 export function createResolvers(
   simulationStore: ExtendedSimulationStore

@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "es2019",
-    "moduleResolution": "bundler",
-    "module": "ES2020",
+    "target": "ES2015",
+    "module": "node16",
+    "moduleResolution": "node16",
     "skipLibCheck": true,
     "sourceMap": true,
     "declaration": true,
@@ -13,6 +13,8 @@
     "incremental": true,
     "noEmitOnError": true,
     "isolatedModules": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "rewriteRelativeImportExtensions": true,
+    "noResolve": false
   }
 }

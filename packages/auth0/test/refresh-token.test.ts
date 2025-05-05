@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from "vitest";
-import { defaultUser, simulation } from "../src/index";
-import { issueRefreshToken } from "../src/auth/refresh-token";
-import { frontendSimulation } from "./helpers";
+import { defaultUser, simulation } from "../src/index.ts";
+import { issueRefreshToken } from "../src/auth/refresh-token.ts";
+import { frontendSimulation } from "./helpers.ts";
 import { assert } from "assert-ts";
 import { decode } from "base64-url";
 import querystring from "querystring";

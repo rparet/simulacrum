@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { stringify } from "querystring";
-import { createHandler } from "./graphql/handler";
-import type { ExtendedSimulationStore } from "./store";
+import { createHandler } from "./graphql/handler.ts";
+import type { ExtendedSimulationStore } from "./store/index.ts";
 
 export const extendRouter = (
   router: Express,

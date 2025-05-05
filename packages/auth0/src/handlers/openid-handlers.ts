@@ -1,6 +1,6 @@
 import type { Request, RequestHandler } from "express";
-import { JWKS } from "../auth/constants";
-import { removeTrailingSlash } from "./url";
+import { JWKS } from "../auth/constants.ts";
+import { removeTrailingSlash } from "./url.ts";
 
 type Routes = "/jwks.json" | "/openid-configuration";
 

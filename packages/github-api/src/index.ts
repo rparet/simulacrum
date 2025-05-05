@@ -3,14 +3,14 @@ import {
   type SimulationHandlers,
   type FoundationSimulator,
 } from "@simulacrum/foundation-simulator";
-import { ExtendedSimulationStore, extendStore } from "./store/index";
-import { extendRouter } from "./extend-api";
-import { openapi } from "./rest/index";
+import { ExtendedSimulationStore, extendStore } from "./store/index.ts";
+import { extendRouter } from "./extend-api.ts";
+import { openapi } from "./rest/index.ts";
 import {
   type GitHubInitialStore,
   gitubInitialStoreSchema,
-} from "./store/entities";
-import type { SchemaFile } from "./utils";
+} from "./store/entities.ts";
+import type { SchemaFile } from "./utils.ts";
 
 export type GitHubSimulator = ({
   initialState,
@@ -55,4 +55,4 @@ export {
   githubRepositorySchema,
   githubBranchSchema,
   githubBlobSchema,
-} from "./store/entities";
+} from "./store/entities.ts";

@@ -1,13 +1,13 @@
 import express, { type Request, type Express } from "express";
-import type { ExtendedSimulationStore } from "../store";
-import { createCors } from "../middleware/create-cors";
-import { noCache } from "../middleware/no-cache";
-import { createSession } from "../middleware/session";
-import { defaultErrorHandler } from "../middleware/error-handling";
-import { createAuth0Handlers } from "./auth0-handlers";
-import { createOpenIdHandlers } from "./openid-handlers";
+import type { ExtendedSimulationStore } from "../store/index.ts";
+import { createCors } from "../middleware/create-cors.ts";
+import { noCache } from "../middleware/no-cache.ts";
+import { createSession } from "../middleware/session.ts";
+import { defaultErrorHandler } from "../middleware/error-handling.ts";
+import { createAuth0Handlers } from "./auth0-handlers.ts";
+import { createOpenIdHandlers } from "./openid-handlers.ts";
 import path from "path";
-import { Auth0Configuration } from "../types";
+import { Auth0Configuration } from "../types.ts";
 
 const publicDir = path.join(__dirname, "..", "views", "public");
 export const extendRouter =

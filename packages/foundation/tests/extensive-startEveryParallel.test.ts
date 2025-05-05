@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { simulation } from "../example/extensiveServer";
+import { simulation } from "../example/extensiveServer/index.ts";
 
 /*
  * In this test file, we expect each test to start up and shut down it's own server.

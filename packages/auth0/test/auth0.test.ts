@@ -7,17 +7,17 @@ import {
   afterAll,
   expect,
 } from "vitest";
-import { defaultUser, simulation } from "../src/index";
+import { defaultUser, simulation } from "../src/index.ts";
 
 import { stringify } from "querystring";
 import { decode, encode } from "base64-url";
 import jwt from "jsonwebtoken";
 
 import Keygrip from "keygrip";
-import { removeTrailingSlash } from "../src/handlers/url";
-import type { AccessToken, IdToken, ScopeConfig, TokenSet } from "../src/types";
-import { epochTimeToLocalDate } from "../src/auth/date";
-import { frontendSimulation } from "./helpers";
+import { removeTrailingSlash } from "../src/handlers/url.ts";
+import type { AccessToken, IdToken, TokenSet } from "../src/types.ts";
+import { epochTimeToLocalDate } from "../src/auth/date.ts";
+import { frontendSimulation } from "./helpers.ts";
 
 const createSessionCookie = <T>(data: T): string => {
   let cookie = Buffer.from(JSON.stringify(data)).toString("base64");

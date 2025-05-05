@@ -1,5 +1,5 @@
-import type { GrantType, RefreshToken } from "../types";
-import { epochTime } from "./date";
+import type { GrantType, RefreshToken } from "../types.ts";
+import { epochTime } from "./date.ts";
 import { encode } from "base64-url";
 import { assert } from "assert-ts";
 
