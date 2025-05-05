@@ -4,4 +4,4 @@
 "@simulacrum/github-api-simulator": patch:bug
 ---
 
-Remove bare `/index` imports without an extension as Node seems to have trouble resolving.
+Add extensions to all imports including bare `/index` imports. With an updated version of TypeScript, this allowed a build which correctly added extensions to every relative import improving compatibility with Node and file resolution.
