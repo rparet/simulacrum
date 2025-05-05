@@ -33,7 +33,7 @@ This quick start assumes you have your own app with Auth0.
 You may start a server directly from the command line.
 
 ```bash
-npx auth0-simulator  # this will start a simulation server at http://localhost:4400
+npx @simulacrum/auth0-simulator  # this will start a simulation server at http://localhost:4400
 ```
 
 Given no further input, it will use the default values as below. This will point your app at the simulation instead of the Auth0 endpoint.
