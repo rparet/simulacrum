@@ -1,7 +1,7 @@
 import { createSchema, createYoga } from "graphql-yoga";
-import { createResolvers } from "./resolvers";
-import { getSchema } from "../utils";
-import type { ExtendedSimulationStore } from "../store";
+import { createResolvers } from "./resolvers.ts";
+import { getSchema } from "../utils.ts";
+import type { ExtendedSimulationStore } from "../store/index.ts";
 
 export function createHandler(simulationStore: ExtendedSimulationStore) {
   let schema = getSchema("schema.docs-enterprise.graphql");

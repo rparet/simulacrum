@@ -1,4 +1,4 @@
-import { extensionlessFileName } from "./extensionless-file-name";
+import { extensionlessFileName } from "./extensionless-file-name.ts";
 import { assert } from "assert-ts";
 import fs from "fs";
 import path from "path";

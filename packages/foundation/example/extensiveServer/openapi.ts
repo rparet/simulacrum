@@ -1,5 +1,5 @@
-import type { ExtendedSimulationStore } from "./store";
-import type { SimulationHandlers } from "../../src";
+import type { ExtendedSimulationStore } from "./store.ts";
+import type { SimulationHandlers } from "../../src/index.ts";
 
 const openapiSchemaFromRealEndpoint = {
   openapi: "3.0.0",

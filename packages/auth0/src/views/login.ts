@@ -1,5 +1,5 @@
-import type { ScopeConfig } from "../types";
-import { deriveScope } from "../handlers/utils";
+import type { ScopeConfig } from "../types.ts";
+import { deriveScope } from "../handlers/utils.ts";
 const html = String.raw;
 
 interface LoginViewProps {

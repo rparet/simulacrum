@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
-import { simulation } from "../example/singleFileServer";
+import { simulation } from "../example/singleFileServer/index.ts";
 
 /*
  * In this test file, we start the server once for the whole suite.

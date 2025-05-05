@@ -1,6 +1,6 @@
 import { describe, it, beforeAll, afterAll, expect } from "vitest";
-import { simulation } from "../src";
-import { JWKS } from "../src/auth/constants";
+import { simulation } from "../src/index.ts";
+import { JWKS } from "../src/auth/constants.ts";
 
 let basePort = 4401;
 let host = "https://localhost";

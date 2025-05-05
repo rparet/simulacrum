@@ -1,6 +1,6 @@
 import { cosmiconfigSync } from "cosmiconfig";
-import type { Auth0Configuration, ConfigSchema } from "../types";
-import { configurationSchema } from "../types";
+import type { Auth0Configuration, ConfigSchema } from "../types.ts";
+import { configurationSchema } from "../types.ts";
 
 const DefaultAuth0Port = 4400;
 

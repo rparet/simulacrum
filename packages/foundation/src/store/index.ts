@@ -1,5 +1,7 @@
-import { generateSchemaWithInputSlices } from "./schema";
-import type { ExtendSimulationSchemaInput } from "./schema";
+import {
+  generateSchemaWithInputSlices,
+  type ExtendSimulationSchemaInput,
+} from "./schema.ts";
 import type { AnyState, StoreUpdater, Callable } from "starfx";
 import { parallel, take, select, createStore, createSelector } from "starfx";
 import { updateStore, createThunks, mdw } from "starfx";

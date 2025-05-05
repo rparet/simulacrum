@@ -1,5 +1,5 @@
 import type { Request, Response, RequestHandler } from "express";
-import type { Auth0Configuration, QueryParams } from "../types";
+import type { Auth0Configuration, QueryParams } from "../types.ts";
 import { stringify } from "querystring";
 
 export const createLoginRedirectHandler = (

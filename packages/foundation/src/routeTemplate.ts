@@ -1,4 +1,4 @@
-import type { SimulationLog, SimulationRoute } from "./store/schema";
+import type { SimulationLog, SimulationRoute } from "./store/schema.ts";
 
 const responseSubmit = (routeId: string, response: number) => /* HTML */ `<form
   action=""

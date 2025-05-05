@@ -1,16 +1,8 @@
-import {
-  describe,
-  it,
-  beforeEach,
-  afterEach,
-  beforeAll,
-  afterAll,
-  expect,
-} from "vitest";
-import { defaultUser, simulation } from "../src";
+import { describe, it, beforeEach, afterEach, expect } from "vitest";
+import { simulation } from "../src/index.ts";
 import jwt from "jsonwebtoken";
 import { assert } from "assert-ts";
-import { frontendSimulation } from "./helpers";
+import { frontendSimulation } from "./helpers.ts";
 
 let Fields = {
   audience: "https://example.nl",

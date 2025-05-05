@@ -1,13 +1,13 @@
-import type { PageArgs } from "./relay";
-import { applyRelayPagination } from "./relay";
-import type { ExtendedSimulationStore } from "../store";
+import type { PageArgs } from "./relay.ts";
+import { applyRelayPagination } from "./relay.ts";
+import type { ExtendedSimulationStore } from "../store/index.ts";
 import type { AnyState } from "@simulacrum/foundation-simulator";
 import type {
   User,
   Repository,
   Organization,
   Team,
-} from "../__generated__/resolvers-types";
+} from "../__generated__/resolvers-types.ts";
 
 interface GraphQLData {
   User: User;

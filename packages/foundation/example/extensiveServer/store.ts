@@ -4,7 +4,7 @@ import type {
   ExtendSimulationSelectors,
   ExtendSimulationSchema,
   AnyState,
-} from "../../src";
+} from "../../src/index.ts";
 
 export type ExtendedSchema = typeof inputSchema;
 type ExtendActions = typeof inputActions;

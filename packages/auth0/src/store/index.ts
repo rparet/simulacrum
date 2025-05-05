@@ -15,7 +15,7 @@ import {
   type Auth0User,
   type AuthSession,
   Auth0InitialStore,
-} from "./entities";
+} from "./entities.ts";
 
 export type ExtendedSchema = ({ slice }: ExtendSimulationSchema) => {
   sessions: (

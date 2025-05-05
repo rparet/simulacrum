@@ -18,7 +18,7 @@ import {
   type GitHubUser,
   type GitHubBranch,
   GitHubAppInstallation,
-} from "./entities";
+} from "./entities.ts";
 
 export type ExtendedSchema = ({ slice }: ExtendSimulationSchema) => {
   users: (

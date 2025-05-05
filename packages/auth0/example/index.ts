@@ -1,4 +1,4 @@
-import { simulation } from "../src";
+import { simulation } from "../src/index.ts";
 
 let app = simulation();
 app.listen(undefined, () =>

@@ -1,7 +1,7 @@
 import { assert } from "assert-ts";
-import type { ScopeConfig } from "../types";
-import type { ExtendedSimulationStore } from "../store";
-import type { Auth0User } from "../store/entities";
+import type { ScopeConfig } from "../types.ts";
+import type { ExtendedSimulationStore } from "../store/index.ts";
+import type { Auth0User } from "../store/entities.ts";
 
 type Predicate<T> = (this: void, value: T, index: number, obj: T[]) => boolean;
 
