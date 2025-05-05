@@ -3,7 +3,7 @@ import {
   type SimulationHandlers,
   type FoundationSimulator,
 } from "@simulacrum/foundation-simulator";
-import { ExtendedSimulationStore, extendStore } from "./store/index";
+import { ExtendedSimulationStore, extendStore } from "./store";
 import { extendRouter } from "./handlers";
 import {
   type Auth0InitialStore,

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const auth0APIsimulator = require("../dist/index");
+const auth0APIsimulator = require("../dist");
 
 const app = auth0APIsimulator.simulation();
 app.listen(4400, () =>
