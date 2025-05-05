@@ -9,7 +9,7 @@
     "build": "npm run prepack -ws",
     "prepack": "npm run prepack -ws",
     "lint": "npm run lint -ws -- --fix",
-    "build:tsc": "tsc -b ./tsconfig.packages.json",
+    "build:tsc": "tsc -b ./packages/foundation/tsconfig.dist.json",
     "watch:tsc": "npm run build && \"$(npm bin)/tsc\" -b ./tsconfig.packages.json --watch",
     "covector": "npx covector"
   },
@@ -35,8 +35,8 @@
     "npm": ">=10"
   },
   "volta": {
-    "node": "20.16.0",
-    "npm": "10.8.2"
+    "node": "20.19.1",
+    "npm": "11.3.0"
   },
   "devDependencies": {
     "@frontside/tsconfig": "^3.0.0",
