@@ -13,6 +13,8 @@
     "incremental": true,
     "noEmitOnError": true,
     "isolatedModules": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "rewriteRelativeImportExtensions": true,
+    "noResolve": false
   }
 }

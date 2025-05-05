@@ -1,4 +1,4 @@
-import { simulation } from "../src/index";
+import { simulation } from "../src";
 
 let app = simulation();
 app.listen(3300, () =>

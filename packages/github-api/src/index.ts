@@ -3,9 +3,9 @@ import {
   type SimulationHandlers,
   type FoundationSimulator,
 } from "@simulacrum/foundation-simulator";
-import { ExtendedSimulationStore, extendStore } from "./store/index";
+import { ExtendedSimulationStore, extendStore } from "./store";
 import { extendRouter } from "./extend-api";
-import { openapi } from "./rest/index";
+import { openapi } from "./rest";
 import {
   type GitHubInitialStore,
   gitubInitialStoreSchema,

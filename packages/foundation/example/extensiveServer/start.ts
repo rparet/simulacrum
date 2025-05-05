@@ -1,4 +1,4 @@
-import { simulation } from "./index";
+import { simulation } from ".";
 
 let app = simulation();
 app.listen(undefined, () =>

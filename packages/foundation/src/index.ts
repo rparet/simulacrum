@@ -19,14 +19,14 @@ import type {
 } from "openapi-backend";
 import type { Options as AjvOpts } from "ajv";
 import addFormats from "ajv-formats";
-import { createSimulationStore } from "./store/index";
+import { createSimulationStore } from "./store";
 import type {
   SimulationStore,
   ExtendSimulationActionsInput,
   ExtendSimulationActions,
   ExtendSimulationSelectorsInput,
   ExtendSimulationSelectors,
-} from "./store/index";
+} from "./store";
 import type {
   ExtendSimulationSchemaInput,
   ExtendSimulationSchema,

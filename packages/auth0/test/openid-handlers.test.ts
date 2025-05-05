@@ -1,5 +1,5 @@
 import { describe, it, beforeAll, afterAll, expect } from "vitest";
-import { simulation } from "../src/index";
+import { simulation } from "../src";
 import { JWKS } from "../src/auth/constants";
 
 let basePort = 4401;

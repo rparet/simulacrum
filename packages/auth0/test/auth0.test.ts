@@ -7,7 +7,7 @@ import {
   afterAll,
   expect,
 } from "vitest";
-import { defaultUser, simulation } from "../src/index";
+import { defaultUser, simulation } from "../src";
 
 import { stringify } from "querystring";
 import { decode, encode } from "base64-url";

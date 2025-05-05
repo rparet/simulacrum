@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
-import { simulation } from "../src/index";
+import { simulation } from "../src";
 
 let basePort = 3320;
 let host = "http://localhost";

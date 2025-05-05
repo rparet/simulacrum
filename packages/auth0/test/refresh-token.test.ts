@@ -1,5 +1,5 @@
 import { describe, it, beforeAll, afterAll, expect } from "vitest";
-import { defaultUser, simulation } from "../src/index";
+import { defaultUser, simulation } from "../src";
 import { issueRefreshToken } from "../src/auth/refresh-token";
 import { frontendSimulation } from "./helpers";
 import { assert } from "assert-ts";

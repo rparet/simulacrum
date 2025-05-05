@@ -7,7 +7,7 @@ import {
   afterAll,
   expect,
 } from "vitest";
-import { defaultUser, simulation } from "../src/index";
+import { defaultUser, simulation } from "../src";
 import jwt from "jsonwebtoken";
 import { assert } from "assert-ts";
 import { frontendSimulation } from "./helpers";
