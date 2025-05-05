@@ -9,8 +9,7 @@ import type { ILayer, IRoute } from "express-serve-static-core";
 import { fdir } from "fdir";
 import fs from "node:fs";
 import path from "node:path";
-import { klona } from "klona/json";
-import { dset } from "dset/merge";
+import { merge } from "lodash";
 import OpenAPIBackend from "openapi-backend";
 import type {
   Handler,
@@ -427,12 +426,8 @@ export function createFoundationSimulationServer<
 const mergeDocumentArray = (
   documents: RecursivePartial<Document>[]
 ): Document => {
-  const documentRoot = { root: {} };
-  for (const document of documents) {
-    let copy = klona(document);
-    dset(documentRoot, "root", copy);
-  }
-  return documentRoot.root as Document;
+  let document = merge({}, ...documents);
+  return document as Document;
 };
 
 export async function startFoundationSimulationServer<
